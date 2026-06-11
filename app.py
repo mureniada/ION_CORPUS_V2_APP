@@ -29,11 +29,7 @@ with st.sidebar:
     st.write("Reasoning:", GENERATE_MODEL)
     top_k = st.slider("Number of sources", 3, 10, TOP_K)
     show_sources = st.checkbox("Show retrieved sources", value=True)
-
-question = st.text_input(
-    "Ask the ION Corpus V2",
-    placeholder="What is the relationship between ergodicity and investing?"
-)
+question = st.chat_input("Ask the ION Corpus V2...")
 
 def generate_with_retry(prompt, retries=5):
     for attempt in range(retries):
@@ -47,7 +43,7 @@ def generate_with_retry(prompt, retries=5):
             time.sleep(10 * (attempt + 1))
     return None
 
-if st.button("Ask") and question:
+if question:
     with st.spinner("Searching corpus..."):
         embed_result = gemini.models.embed_content(
             model=EMBEDDING_MODEL,
